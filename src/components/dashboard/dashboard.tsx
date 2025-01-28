@@ -1,5 +1,7 @@
-import { Box, Container, Grid, Paper, Typography } from '@mui/material';
+// src/components/dashboard/Dashboard.tsx
+import { Box, Container, Grid, Paper, Typography, Button } from '@mui/material';
 import { styled } from '@mui/material/styles';
+import { Link } from 'react-router-dom';
 
 const DashboardPaper = styled(Paper)(({ theme }) => ({
   padding: theme.spacing(2),
@@ -15,22 +17,44 @@ const DashboardPaper = styled(Paper)(({ theme }) => ({
   }
 }));
 
-const Dashboard = () => {
+export default function Dashboard() {
   return (
-    <Box sx={{ 
-      flexGrow: 1, 
-      p: 3,
-      backgroundColor: '#111827',
-      minHeight: '100vh',
-      marginTop: '0px'
-    }}>
+    <Box
+      sx={{
+        flexGrow: 1,
+        p: 3,
+        backgroundColor: '#111827',
+        minHeight: '100vh',
+        marginTop: '0px'
+      }}
+    >
       <Container maxWidth="xl" sx={{ padding: 0 }}>
         <Grid container spacing={3}>
           {/* Main Content */}
           <Grid item xs={12}>
-            <Typography variant="h4" gutterBottom sx={{ color: '#F9FAFB', fontWeight: 600 }}>
+            <Typography
+              variant="h4"
+              gutterBottom
+              sx={{ color: '#F9FAFB', fontWeight: 600 }}
+            >
               Dashboard Overview
             </Typography>
+
+            {/* NEW: Button to jump to the Leaderboard */}
+            <Box sx={{ mb: 3 }}>
+              <Button
+                variant="contained"
+                component={Link}
+                to="/admin/leaderboard"
+                sx={{
+                  backgroundColor: '#3B82F6',
+                  '&:hover': { backgroundColor: '#2563EB' },
+                  textTransform: 'none'
+                }}
+              >
+                View Full Leaderboard
+              </Button>
+            </Box>
           </Grid>
 
           {/* Stats Cards */}
@@ -42,23 +66,35 @@ const Dashboard = () => {
           ].map(([title, value, subtext], index) => (
             <Grid item xs={12} md={6} lg={3} key={index}>
               <DashboardPaper elevation={0}>
-                <Typography variant="h6" sx={{ color: '#9CA3AF', fontWeight: 500 }}>{title}</Typography>
-                <Typography variant="h4" sx={{ color: '#F9FAFB', fontWeight: 700 }}>{value}</Typography>
-                <Typography variant="caption" sx={{ color: '#6B7280' }}>{subtext}</Typography>
+                <Typography variant="h6" sx={{ color: '#9CA3AF', fontWeight: 500 }}>
+                  {title}
+                </Typography>
+                <Typography variant="h4" sx={{ color: '#F9FAFB', fontWeight: 700 }}>
+                  {value}
+                </Typography>
+                <Typography variant="caption" sx={{ color: '#6B7280' }}>
+                  {subtext}
+                </Typography>
               </DashboardPaper>
             </Grid>
           ))}
 
           {/* Data Table Section */}
           <Grid item xs={12}>
-            <Paper sx={{ 
-              p: 2, 
-              height: 400,
-              backgroundColor: '#1F2937',
-              border: '1px solid #374151',
-              color: '#E5E7EB'
-            }}>
-              <Typography variant="h6" gutterBottom sx={{ color: '#F9FAFB', fontWeight: 600 }}>
+            <Paper
+              sx={{
+                p: 2,
+                height: 400,
+                backgroundColor: '#1F2937',
+                border: '1px solid #374151',
+                color: '#E5E7EB'
+              }}
+            >
+              <Typography
+                variant="h6"
+                gutterBottom
+                sx={{ color: '#F9FAFB', fontWeight: 600 }}
+              >
                 Recent Campaigns
               </Typography>
               {/* Table or chart would go here */}
@@ -71,13 +107,15 @@ const Dashboard = () => {
             ['Recent Activities', 300]
           ].map(([title, height]) => (
             <Grid item xs={12} md={6} key={title}>
-              <Paper sx={{ 
-                p: 2, 
-                height,
-                backgroundColor: '#1F2937',
-                border: '1px solid #374151',
-                color: '#E5E7EB'
-              }}>
+              <Paper
+                sx={{
+                  p: 2,
+                  height,
+                  backgroundColor: '#1F2937',
+                  border: '1px solid #374151',
+                  color: '#E5E7EB'
+                }}
+              >
                 <Typography variant="h6" gutterBottom sx={{ color: '#F9FAFB', fontWeight: 600 }}>
                   {title}
                 </Typography>
@@ -89,6 +127,4 @@ const Dashboard = () => {
       </Container>
     </Box>
   );
-};
-
-export default Dashboard;
+}

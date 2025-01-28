@@ -1,10 +1,10 @@
-// components/header/Header.tsx
-import { 
-  AppBar, 
-  Toolbar, 
-  Typography, 
-  Button, 
-  Box, 
+// src/components/header/Header.tsx
+import {
+  AppBar,
+  Toolbar,
+  Typography,
+  Button,
+  Box,
   IconButton,
   Drawer,
   List,
@@ -18,17 +18,24 @@ import { ExitToApp as SignOutIcon, Menu as MenuIcon } from '@mui/icons-material'
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 
-const Header = () => {
+function Header() {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
   const [mobileOpen, setMobileOpen] = useState(false);
 
-  const navItems = ['Leaderboard', 'Products', 'Monetization', 'About', 'Contact', 'Admin'];
+  // Updated nav items to match your routes in App.tsx
+  const navItems = [
+    { label: 'Dashboard', path: '/admin/dashboard' },
+    { label: 'Leaderboard', path: '/admin/leaderboard' },
+    { label: 'Research Config', path: '/admin/research-config' },
+    // Add more here if needed
+  ];
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
 
+  // Drawer for mobile nav
   const drawer = (
     <Box
       sx={{
@@ -44,18 +51,18 @@ const Header = () => {
       <Divider sx={{ borderColor: '#1F2937' }} />
       <List>
         {navItems.map((item) => (
-          <ListItem 
-            key={item}
+          <ListItem
+            key={item.label}
             component={Link}
-            to={item === 'Admin' ? '/admin' : '/'}
+            to={item.path}
             onClick={handleDrawerToggle}
             sx={{
               '&:hover': {
-                backgroundColor: 'rgba(255, 255, 255, 0.04)'
-              }
+                backgroundColor: 'rgba(255, 255, 255, 0.04)',
+              },
             }}
           >
-            <ListItemText primary={item} />
+            <ListItemText primary={item.label} />
           </ListItem>
         ))}
       </List>
@@ -64,27 +71,32 @@ const Header = () => {
 
   return (
     <Box sx={{ display: 'flex' }}>
-      <AppBar 
+      <AppBar
         position="static"
-        sx={{ 
+        sx={{
           backgroundColor: '#101827',
           boxShadow: 'none',
           borderBottom: `1px solid ${theme.palette.divider}`,
         }}
       >
-        <Toolbar sx={{ 
-          display: 'flex', 
-          justifyContent: 'space-between',
-          px: { xs: 2, md: 4 },
-          height: '64px'
-        }}>
+        <Toolbar
+          sx={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            px: { xs: 2, md: 4 },
+            height: '64px',
+          }}
+        >
           {isMobile ? (
-            <Box sx={{ 
-              display: 'flex', 
-              alignItems: 'center', 
-              width: '100%',
-              justifyContent: 'space-between'
-            }}>
+            // MOBILE HEADER
+            <Box
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+                width: '100%',
+                justifyContent: 'space-between',
+              }}
+            >
               <IconButton
                 color="inherit"
                 aria-label="open drawer"
@@ -94,16 +106,16 @@ const Header = () => {
               >
                 <MenuIcon />
               </IconButton>
-              
+
               <Typography
                 variant="h6"
-                sx={{ 
+                sx={{
                   fontWeight: 600,
                   fontSize: '1rem',
                   color: '#F9FAFB',
                   position: 'absolute',
                   left: '50%',
-                  transform: 'translateX(-50%)'
+                  transform: 'translateX(-50%)',
                 }}
               >
                 VerifyInfluencers
@@ -121,60 +133,62 @@ const Header = () => {
                   py: 0.5,
                   '&:hover': {
                     borderColor: '#4B5563',
-                    backgroundColor: 'rgba(255, 255, 255, 0.04)'
-                  }
+                    backgroundColor: 'rgba(255, 255, 255, 0.04)',
+                  },
                 }}
               >
                 Sign Out
               </Button>
             </Box>
           ) : (
+            // DESKTOP HEADER
             <>
-              <Typography 
-                variant="h6" 
+              <Typography
+                variant="h6"
                 component={Link}
-                to="/"
-                sx={{ 
+                to="/admin/dashboard"
+                sx={{
                   fontWeight: 600,
                   fontSize: '1.25rem',
                   color: '#F9FAFB',
-                  textDecoration: 'none'
+                  textDecoration: 'none',
                 }}
               >
                 VerifyInfluencers
               </Typography>
 
               <Box sx={{ display: 'flex', alignItems: 'center', gap: 4 }}>
-                <Box 
-                  component="nav" 
-                  display="flex" 
+                <Box
+                  component="nav"
+                  display="flex"
                   gap={2}
-                  sx={{ 
+                  sx={{
                     '& > *:not(:last-child)': {
                       borderRight: `1px solid ${theme.palette.divider}`,
-                      pr: 2
-                    }
+                      pr: 2,
+                    },
                   }}
                 >
                   {navItems.map((item) => (
                     <Typography
-                      key={item}
+                      key={item.label}
                       variant="body1"
                       component={Link}
-                      to={item === 'Admin' ? '/admin' : '/'}
+                      to={item.path}
                       sx={{
                         color: '#9CA3AF',
                         fontWeight: 500,
                         textDecoration: 'none',
                         '&:hover': {
-                          color: '#FFFFFF'
-                        }
+                          color: '#FFFFFF',
+                        },
                       }}
                     >
-                      {item}
+                      {item.label}
                     </Typography>
                   ))}
                 </Box>
+
                 <Button
                   variant="outlined"
                   startIcon={<SignOutIcon />}
@@ -187,8 +201,8 @@ const Header = () => {
                     py: 1,
                     '&:hover': {
                       borderColor: '#4B5563',
-                      backgroundColor: 'rgba(255, 255, 255, 0.04)'
-                    }
+                      backgroundColor: 'rgba(255, 255, 255, 0.04)',
+                    },
                   }}
                 >
                   Sign Out
@@ -199,6 +213,7 @@ const Header = () => {
         </Toolbar>
       </AppBar>
 
+      {/* Mobile drawer */}
       <Drawer
         variant="temporary"
         open={mobileOpen}
@@ -209,7 +224,7 @@ const Header = () => {
         sx={{
           '& .MuiDrawer-paper': {
             backgroundColor: '#101827',
-            borderRight: '1px solid #1F2937'
+            borderRight: '1px solid #1F2937',
           },
         }}
       >
@@ -217,6 +232,6 @@ const Header = () => {
       </Drawer>
     </Box>
   );
-};
+}
 
 export default Header;
